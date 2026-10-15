@@ -10,7 +10,7 @@ N="\e[0m"
 
 if [ $USERID -ne 0 ]; then
     echo -e "${R}Plesae run this command with root user access${N}" | tee -a $LOGS_FILE
-    exit1
+    exit 1
 fi
 
    mkdir -p $LOGS_FOLDER
@@ -18,7 +18,7 @@ fi
  VALIDATE(){
     if [ $1 -ne 0 ]; then
            echo "$2...$Rfailure ${N}" | tee -a $LOGS_FILE
-           exit1
+           exit 1
        else
            echo "$2...$Gsuccess ${N}" | tee -a $LOGS_FILE
     fi
