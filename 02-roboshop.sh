@@ -6,25 +6,27 @@ AMI_id="ami-0220d79f3f480ecf5" # replace with your AMI ID
 for instance in $@  
 
 do
-    instance_id=$(aws ec2 run-instances \
+    INSTANCE_ID=$( aws ec2 run-instances \
     --image-id $AMI_id \
-    --instance-type t3.micro \
+    --instance-type "t3.micro" \
     --security-group-ids $SG_ID \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
     --query 'Instances[0].InstancesId' \
-    --output text)
+    --output text )
 
     if [ $instance == "frontend" ]; then
         IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance_id \
+            --instance-ids $INSTANCE_ID \
             --query 'Reservations[].Instances[].PublicIpAddress' --output text
         )
     else
         IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance_id \
+            --instance-ids $INSTANCE_ID \
             --query 'Reservations[].Instances[].PrivateIpAddress' --output text
         )
     fi
+
+    echo "IP address of $instance is $IP"
 done
