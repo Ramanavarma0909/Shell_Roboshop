@@ -14,8 +14,8 @@ do
         --image-id $ami_id \
         --instance-type $instance_type \
         --security-groups $sg_id \
-        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-shell}]" \
-        --query 'Reservations[].Instances[].InstanceId' \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
+        --query 'Instances[0].InstanceId' \
         --output text
     )
 
